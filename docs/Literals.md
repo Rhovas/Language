@@ -8,6 +8,7 @@ Rhovas supports many of the standard literal types seen in other languages:
  - [Decimal](#Decimal): `101.5`, `6.022e23`
  - [Character](#Character): Not supported, included for documentation
  - [String](#String): `"string"`, `"\n\r\t"`, `"val = ${val}"`
+ - [Atom](#Atom): `:name`
 
 ## Null
 
@@ -131,3 +132,14 @@ They are currently not supported in favor of using a syntax macro, such as
 > useful, such as `#string(:raw) { ... }` to disable escaping. This would also
 > handle different degrees of escaping better, such as disabling simple escapes
 > like `\n` while still allowing `${expr}` if needed.
+
+# Atom
+
+Atoms represent the runtime value of identifiers in the language. They use a
+colon prefix, as in `:name`, and support the same identifiers as the language
+itself (but can be created from any string as needed).
+
+> TODO: The syntax for identifiers is largely dependent on atoms, as they should
+> support handling identifiers in other languages. Atom literals should support
+> the basic formats used, which appears to be letters, digits (excluding the
+> start), underscores, and hyphens.
