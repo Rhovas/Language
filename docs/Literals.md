@@ -9,6 +9,8 @@ Rhovas supports many of the standard literal types seen in other languages:
  - [Character](#Character): Not supported, included for documentation
  - [String](#String): `"string"`, `"\n\r\t"`, `"val = ${val}"`
  - [Atom](#Atom): `:name`
+ - [List](#List): `[x, y, z]`
+ - [Object](#Object): `{x: 1, y: 2, z: 3}`, `{x, y, z}`
 
 ## Null
 
@@ -143,3 +145,54 @@ itself (but can be created from any string as needed).
 > support handling identifiers in other languages. Atom literals should support
 > the basic formats used, which appears to be letters, digits (excluding the
 > start), underscores, and hyphens.
+
+# List
+
+List literals are used for ordered sequences of values. As a list, values do not
+need to be homogenous like arrays but may not (currently) retain type
+information like tuples. The constructed list is immutable.
+
+> TODO: Consider supporting type inference into arrays or tuples. This may have
+> complex coercion behavior, but is likely similar to what would be done with
+> integer/decimal literals.
+
+The base syntax is `[x, y, z]`, using square brackets for the list and comma
+separated values.
+
+> TODO: Consider supporting a 'spread' operator for merging lists? Concatenation
+> is probably sufficient like `list + [x]`, but merging object literals is also
+> a common method. This is most dependent on whether a spread operator would
+> already exist for other features, such as splicing function arguments.
+
+# Object
+
+Object literals are used for named key-value pairs, however the order of entries
+is defined to be insertion order to ensure consistent behavior with iteration
+and printing (primarily for debugging). The constructed object is immutable.
+
+The base syntax is `{x: 1, y: 2, z: 3}`, using curly braces for the object, a
+colon to separate the key and value, and commas between each pair. Keys are
+always atoms and can be accessed directly (`obj.key`) or through indexing
+(`obj[:key]`). If the key and value are the same identifier, as in `{x: x}`, the
+shorthand `{x}` may be used instead.
+
+> TODO: Consider supporting syntax for arbitrary keys via atoms and/or strings,
+> such as: `[:atom]: value` or `["string"]: value`.
+
+> TODO: Consider allowing values to access existing keys on the defined object,
+> such as `{x: 1, y: x + 1}`. If so, how does this interact with scope?
+
+> TODO: Consider supporting a 'spread' operator for merging objects? As with
+> lists, functions can work in simple cases like `obj.with({x: 1})`.
+> 
+> Alternatively, perhaps `+` has reasonably defined behavior for objects through
+> concatenation as a parallel to lists.
+
+Object literals also apply to struct initialization, which is effectively a
+named object literal as in `Point {x: 1, y: 2, z: 3}`. Since the structure of
+the object is known, the syntax `{a, b, c}` can also be used with values to mean
+`{x: a, y: b, z: c}`.
+
+> TODO: Consider requiring consistent order of keys with struct initialization,
+> especially for something like Point {1, x, 3}. This impacts destructuring as
+> well as it mixes ordered and named behavior.
