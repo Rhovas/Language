@@ -5,8 +5,33 @@ applied in match cases, variable declarations, or function arguments. Patterns
 should work identically in each use case, accounting for some features which
 may not be applicable (such as matching on the type in a variable declaration).
 
-> TODO: Decide on the exact restrictions for what features are supported in each
-> context, as well as identify any potential conflicts with syntax.
+## Context
+
+The location of a pattern determines the effect of a match and may restrict the
+features available in patterns. However, all patterns themselves should have the
+same behavior in all contexts.
+
+ - **Match Cases** follow standard behavior, executing the case statement on a
+   match or continuing to the next case on failure (else erroring).
+    - `0`, `[1, 2, 3]`, `Point {x: 1, y: 2, z: 3}`
+ - **Variable Declarations** act as assertions (`assert`), throwing an error if
+   the match fails. The pattern is an optional name and/or optional destructure
+   with at least one variable binding in total. The type of the root pattern is
+   statically verified with the value assigned.
+    - `val name = obj;`, `val name: Type = obj;`, `val [x, y, z] = list;`
+ - **Function Arguments** act as preconditions (`require`), throwing an error if
+   the match fails.
+    - For named functions, the pattern must have at least one variable binding
+      and all bindings must be provided a type (either directly or indirectly
+      through inference).
+       - `func(Point {x, y, z}) { ... }`, `sqrt(n: Integer ${n > 0}) { ... }`
+    - For lambdas, the pattern has no restrictions (variable bindings are not
+      required as arguments may be unused or expected to match specific values,
+      and types are not required as they can be inferred).
+       - `object.map |key, value| { ... }`, `list.sort |{name, *}| { ... }`
+
+> TODO: Consider supporting dynamic dispatch for functions with patterns (thus
+> allowing top-level values).
 
 ## Literals
 
