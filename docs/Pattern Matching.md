@@ -8,6 +8,14 @@ may not be applicable (such as matching on the type in a variable declaration).
 > TODO: Decide on the exact restrictions for what features are supported in each
 > context, as well as identify any potential conflicts with syntax.
 
+## Literals
+
+Patterns can use all literals in Rhovas (`null`, booleans, integers, decimals,
+strings, atoms, lists, and objects). Lists and objects are effectively handled
+through destructuring, but share the same syntax and behavior.
+
+ - `[true, 1.0, {key: "value"}]`
+
 ## Destructuring
 
 Rhovas has three methods of destructuring objects:
@@ -73,3 +81,21 @@ Additionally, there are a few other common destructuring features included.
 
 > TODO: Consider allowing infinite sequences with varargs (which relates to the
 > type system for objects supporting pattern matching).
+
+## Interpolation
+
+Interpolation is used to access values or perform computation in Rhovas from
+within a pattern, and is used for two purposes:
+
+ - **Variable Access** allows matching on the value of a variable rather than
+   introducing a new binding.
+    - `[x, ${y}, z] = Point(1, 2, 3); //matches when y == 2`
+ - **Predicates** allow arbitrary expressions to be used within a pattern and
+   are located after the pattern. They can be applied to specific bindings or
+   the entire pattern depending on what variables are needed.
+    - `[x, y ${y > 0}] = Point(1, 2, 3); //matches as y == 2`
+    - `[x, y, z] ${x == z} = Point(1, 2, 3); //fails as x != z`
+
+> TODO: Consider restricting predicates to being pure functions, thus avoiding
+> side effects and allowing optimizations on the order of pattern evaluation.
+
