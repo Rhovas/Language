@@ -82,3 +82,5 @@ val snake_case = 0;
     val kebab-case = ${snake_case};
 }
 ```
+
+> TODO: Resolve [Interpolation](Interpolation.md) TODOs for syntax.

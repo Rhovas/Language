@@ -113,18 +113,9 @@ Strings support the following escape characters:
 > is used for interpolation too, Swift's approach of `\u{integer}` may also be
 > a good option (though may imply that the escape happens at runtime).
 
-Interpolation is also supported using `${expr}`.
+Interpolation is also supported using `${expr}` and can be escaped with `\$`.
 
-> TODO: Consider supporting `$name` for variables, which simplifies common cases
-> and can improve readability.
-
-> TODO: Consider using `\{expr}` for interpolation, which follows well-known
-> syntax for escapes and is less likely to conflict with DSLs when used within
-> syntax macros. This also reserves `$` for shell operations or other uses.
-> 
-> A shorthand of `\expr` is also feasible, but has edge cases that can conflict
-> with `\n`/`\r`/`\t`/`\uXXXX`. Using the syntax for atoms like `\:name` would
-> avoid this issue, but may not have a significant enough impact to be worth it.
+> TODO: Resolve [Interpolation](Interpolation.md) TODOs for syntax.
 
 Triple-quoted strings are commonly used for raw or multiline string literals.
 They are currently not supported in favor of using a syntax macro, such as

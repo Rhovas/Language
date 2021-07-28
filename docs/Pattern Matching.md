@@ -121,6 +121,8 @@ within a pattern, and is used for two purposes:
     - `[x, y ${y > 0}] = Point(1, 2, 3); //matches as y == 2`
     - `[x, y, z] ${x == z} = Point(1, 2, 3); //fails as x != z`
 
+> TODO: Resolve [Interpolation](Interpolation.md) TODOs for syntax.
+
 > TODO: Consider restricting predicates to being pure functions, thus avoiding
 > side effects and allowing optimizations on the order of pattern evaluation.
 
