@@ -106,3 +106,15 @@ receiver as the first argument to the function.
 object.|function()
 object.|Module.function(arg2)
 ```
+
+## Lambda
+
+[Lambda expressions](Lambdas.md) are anonymous functions that tend to infer type
+information from the rest of the program.
+
+```
+lambda { ... }
+lambda |args*| { ... }
+```
+
+> TODO: Resolve syntax TODOs in [Lambdas](Lambdas.md).
