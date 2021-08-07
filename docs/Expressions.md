@@ -118,3 +118,16 @@ lambda |args*| { ... }
 ```
 
 > TODO: Resolve syntax TODOs in [Lambdas](Lambdas.md).
+
+## Macro
+
+[Macros](Macros.md) are functions that can transform the AST of arguments. When
+used with a trailing lambda, it becomes a syntax macro and fully controls the
+syntax within the lambda which can be used to implement embedded DSLs.
+
+```
+#regular(args*)
+#syntax { ... }
+```
+
+> TODO: Resolve TODOs in [Macros](Macros.md).
