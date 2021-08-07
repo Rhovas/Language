@@ -86,6 +86,30 @@ object.as!(Type)
 > fails. This can be special cased, but is better supported as a general
 > operation on `Result`s that return `null` on an error.
 
+## To
+
+Coverts an object to the provided type, which may have the possibility of
+failure. This calls a `to` method if one is defined, otherwise looks for a
+constructor `Type(Object)` to be used instead.
+
+```
+object.to(String)
+string.to!(Integer)
+```
+
+> TODO: Determine how conversion fits into the type system, especially
+> considering potential failures (`to`/`to!`), lossy conversion, and reversible
+> conversion (like serialization). Note that this can heavily mix, for example
+> `data.to(String).to!(Data)` should never fail and always `== data` while
+> `string.to!(Data).to(String)` may fail and may not `== string`.
+
+> TODO: Consider implementing this fully as a method if possible, which relies
+> on first-class types (which needs to account for mutability permissions).
+
+> TODO: Consider allowing additional arguments, which can be used for lossy
+> conversion like `int64.to(Int32, :lower-bits)`. This can be used along with
+> `to!` using `.to(Type, :lossy)` if no additional information is needed.
+
 ## Access
 
 Represents accessing a variable (or property when there is a receiver) that can
