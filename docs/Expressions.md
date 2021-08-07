@@ -59,6 +59,33 @@ There are a few categories of binary operators supported:
 
 > TODO: Consider using `and`/`or` instead of `&&`/`||`. 
 
+## Is
+
+Checks if an object is the provided type. Though this is a primitive operation,
+it uses the syntax of a function call to better support chaining and negation.
+
+```
+object is Type
+object.method().is(Type)
+```
+
+> TODO: Consider supporting `isNotX` syntax sugar for `isX` methods, which would
+> also apply to `is` (`object.isNot(Type)`).
+
+## As
+
+Casts an object to the provided type, which throws an exception on failure (thus
+having the `!` suffix). Like `is`, `as` uses the syntax of a function call for
+the reasons above.
+
+```
+object.as!(Type)
+```
+
+> TODO: Consider allowing `object.as?(Type)`, which returns `null` if the cast
+> fails. This can be special cased, but is better supported as a general
+> operation on `Result`s that return `null` on an error.
+
 ## Access
 
 Represents accessing a variable (or property when there is a receiver) that can
