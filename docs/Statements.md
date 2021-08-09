@@ -44,6 +44,63 @@ scope.
 > cases (`pattern: statement`), single-line `if` statements, and messages with
 > `assert`/`require`/`ensure` (`assert (expr): message`).
 
+## Declaration
+
+A declaration statement defines a local variable. Variables are normally
+immutable (`val`), but can be declared mutable using `var`. The type of the
+variable can be inferred if it is assigned with an initial value.
+
+```
+val name = expr;
+var name: Type;
+```
+
+> TODO: Consider restricting shadowing of local variables. However, with an IDE
+> this is less significant.
+
+Variable declarations can also use destructuring, as outlined in [Pattern
+Matching](Pattern%20Matching.md).
+
+```
+val [x, y, z] = list;
+```
+
+> TODO: Consider an alternative approach that uses a single keyword with a
+> mutability permission on the binding, as in `val name`/`val +name`. This
+> allows defining both immutable and mutable variables in a destructure, and
+> also removes a dedicated keyword. If this direction is taken, using a generic
+> `def` keyword may be a good approach.
+> 
+> No keyword is also possible but presents challenges with grammar ambiguities,
+> shadowing, and readability. Context access may help with shadowing/readability
+> when working with class variables.
+
+## Assignment
+
+An assignment statement sets the value of an existing variable, which is either
+an access expression (local variable / object property) or indexing expression.
+The variable must be mutable (`var`) and the value must be assignable to the
+type of the variable.
+
+```
+name = value;
+object.property = value;
+object[...] = value;
+```
+
+> TODO: Consider allowing pattern matching to be used with variable assignment.
+> This is primarily dependent on the grammar, but if it can be supported that
+> removes the `val` requirement for variables in `for` loops (and related).
+
+> TODO: Consider alternatives for compound assignment operators, which are not
+> currently supported. These generally only work well with primitives and don't
+> generalize well, but the idea of transforming the value of a variable and
+> reassigning it is common.
+> 
+> One option is a macro, such as `#set (x.y.z) { Z -> Z }`, using a lambda to
+> map the initial value to the final value. However, something like this feels
+> better handled at the language level.
+
 ## If
 
 An `if` statement is used for branching based on a condition and works the same
