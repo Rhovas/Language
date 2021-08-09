@@ -113,3 +113,36 @@ match (object) {
 
 > TODO: Consider supporting multiple arguments, as in `match (x, y, z)`. This is
 > not strictly needed as multiple arguments can be wrapped in a list literal.
+
+## For
+
+A `for` loop iterates over an iterable value, performing the same behavior as
+`for...each` loops in many languages.
+
+```
+for (val elem in iterable) { ... }
+```
+
+> TODO: Consider removing `val`, which simplifies syntax but helps to identify
+> destructuring. This also related to the use of `val` for `match` argument
+> bindings as well as `with`.
+
+> TODO: Consider either adding an `in` operator or using alternative syntax to
+> avoid introducing a new operator for one purpose.
+
+> TODO: Consider whether implicit `val` allows `for (iterable)`. This may
+> present grammar issues if the `val` keyword is not used for bindings.
+
+## While
+
+A `while` loop repeatedly executes code while a condition is true, as in many
+languages.:
+
+```
+while (cond) { ... }
+```
+
+> TODO: Consider supporting variable bindings as with `if` statements.
+
+> TODO: Consider supporting `do while` loops as well, which can better express
+> some algorithms. Though uncommon, there currently isn't a reason to remove it.
