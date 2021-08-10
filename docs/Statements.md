@@ -203,3 +203,51 @@ while (cond) { ... }
 
 > TODO: Consider supporting `do while` loops as well, which can better express
 > some algorithms. Though uncommon, there currently isn't a reason to remove it.
+
+## Try
+
+A `try` statement is used to handle exceptions and works the same as in many
+languages, supporting both `catch` and `finally` blocks. Multiple `catch` blocks
+are supported, and at least one `catch` or `finally` must be defined.
+
+```
+try {
+    ...
+} catch (val e: Exception) {
+    ...
+} finally {
+    ...
+}
+```
+
+> TODO: Consider restricting the ability to `catch` `Error`s, which result from
+> assertions or other critical issues that can compromise the system. This needs
+> to be considered along with the ability to recover/restart after `Error`s.
+
+> TODO: Consider restricting control flow in `finally` to prevent returns and
+> other exceptions from being thrown (but not `Error`s). Preventing exceptions
+> may not be possible for cleanup, but this needs to be managed carefully if
+> there is an existing exception being thrown (especially for an `Error`).
+
+> TODO: Consider supporting syntax for silencing exceptions, such as
+> `try! { ... }` or a `#silence(...)` macro. This depends on the behavior of
+> silencing, how frequently it's needed, and alternative syntax / API design. In
+> general, silencing is to get around the compiler which should not be common.
+
+## With
+
+A `with` statement is used for managing the automatic acquisition and release
+of resources. Resources are acquired when entering the body and released when
+exited, including when an exception is thrown.
+
+```
+with (resource) { ... }
+with (val name = resource) { ... }
+```
+
+> TODO: Consider allowing `with` to be used for non-resource values, thus acting
+> as a scoped declaration as in `with (val name = ...) if (name) { ... }`.
+
+> TODO: Examine the effectiveness of `with` compared to `defer/defererr`, which
+> are likely more powerful.
+
