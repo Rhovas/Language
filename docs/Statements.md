@@ -251,3 +251,43 @@ with (val name = resource) { ... }
 > TODO: Examine the effectiveness of `with` compared to `defer/defererr`, which
 > are likely more powerful.
 
+## Label
+
+A label statement is used to identify a jump point for `break` and `continue`.
+Labels can be only be applied to loops (`for`/`while`).
+
+```
+label: stmt;
+```
+
+## Break
+
+A `break` statement exits the current loop or, if a label is provided, the loop
+at that label.
+
+```
+break;
+break label;
+```
+
+> TODO: Consider requiring a label to be used, either overall or in certain
+> situations (such as with nested loops). Including default `for`/`while` labels
+> may make this easier as well (preventing their use when nested).
+
+> TODO: Consider whether `break` (and `continue`) are necessary. Many imperative
+> algorithms where `break`/`continue` are useful may be better expressed using
+> declarative counterparts, especially given `for` only applies to `Iterable`s.
+> It may be preferable to avoid these, using `while` where needed and ensuring
+> the loop control flow is identified purely by the condition.
+
+## Continue
+
+A `continue` statement proceeds to the next iteration of the current loop or, if
+a label is provided, the loop at that label.
+
+```
+continue;
+continue label;
+```
+
+> TODO: Resolve related `break` TODOs.
