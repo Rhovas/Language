@@ -18,7 +18,8 @@ are a few reasons why it is important to separate macros from functions:
 
 > TODO: Decide whether there should be syntactic differences between regular and
 > syntax macros. Though ideal, it's normally clear from context and the only
-> conflict arises from regular macros with a trailing lambda.
+> conflict arises from regular macros with a trailing lambda. The Language
+> Server Protocol can also be used to identify the active language.
 
 ## Regular Macros
 

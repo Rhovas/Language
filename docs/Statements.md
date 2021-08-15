@@ -55,8 +55,9 @@ val name = expr;
 var name: Type;
 ```
 
-> TODO: Consider restricting shadowing of local variables. However, with an IDE
-> this is less significant.
+> TODO: Consider restricting shadowing of local variables. The Language Server
+> Protocol can also be used to find the declaration of a variable, but this
+> still seems problematic even with that.
 
 Variable declarations can also use destructuring, as outlined in [Pattern
 Matching](Pattern%20Matching.md).
@@ -73,7 +74,8 @@ val [x, y, z] = list;
 > 
 > No keyword is also possible but presents challenges with grammar ambiguities,
 > shadowing, and readability. Context access may help with shadowing/readability
-> when working with class variables.
+> when working with class variables. The Language Server Protocol may also be
+> helpful for addressing readability concerns.
 
 ## Assignment
 
