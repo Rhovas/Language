@@ -293,3 +293,30 @@ continue label;
 ```
 
 > TODO: Resolve related `break` TODOs.
+
+## Return
+
+A `return` statement finishes the execution of a function and optionally returns
+a value.
+
+```
+return;
+return value;
+```
+
+> TODO: Determine how `return` interacts with lambdas, as lambdas which are
+> inlined would return to a different location.
+
+> TODO: Consider allowing labels to be used with return, which can be used to
+> specify the return point (especially when involving lambdas above).
+
+## Throw
+
+A `throw` statement is used to raise an exception.
+
+```
+throw error;
+```
+
+> TODO: Resolve related TODOs in [Error Handling](Error%20Handling.md),
+> particularly the type hierarchy for what can be thrown.
