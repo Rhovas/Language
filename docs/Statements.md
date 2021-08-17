@@ -320,3 +320,50 @@ throw error;
 
 > TODO: Resolve related TODOs in [Error Handling](Error%20Handling.md),
 > particularly the type hierarchy for what can be thrown.
+
+## Assert
+
+An `assert` statement is used to validate an expected condition about the state
+of the program. Assertions for preconditions, postconditions, and invariants
+should instead use `require`/`ensure`.
+
+```
+assert cond;
+assert cond: "message";
+```
+
+> TODO: Consider alternative syntax to be more consistent with other statements,
+> such as `assert (cond) { message }`. Alternatively, standardize syntax for
+> same-like statements like `if (cond): stmt` and `assert (cond): message`.
+
+> TODO: Consider allowing a block to be used, which aids the other points and
+> can support more complex situations. For example, it may be beneficial for
+> assertions to define variables accessible for future assertions, especially
+> when checking mutations (since always copying the original is not optimal).
+
+## Require
+
+A `require` statement works in the same way as `assert` but is specifically for
+validating preconditions, which applies to the user.
+
+```
+require cond;
+require cond: "message";
+```
+
+## Ensure
+
+An `ensure` statement works in the same way as `assert` but is specifically for
+validating postconditions and invariants, which applies to the implementation.
+
+```
+ensure cond;
+ensure cond: "message";
+```
+
+> TODO: Determine how to access initial variables, such as `this.initial` and
+> `this.final` instead of just `this`. Can also apply to parameters.
+
+> TODO: Determine how `ensure` applies to scope, as different control flow may
+> bypass some statements. Consider having `ensure` act similarly to `defer` as
+> an assertion which is accumulated and then run when the function returns.
