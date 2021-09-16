@@ -84,3 +84,101 @@ lex_string ::=
 
 lex_operator ::= [^A-Za-z0-9_\"]
 ```
+
+## Parser
+
+```ebnf
+expression ::= logical_or_expression
+
+logical_or_expression ::= logical_and_expression ('|' '|' logical_and_expression)*
+logical_and_expression ::= equality_expression ('&' '&' equality_expression)*
+equality_expression ::= comparison_expression ([!=] '=' '='? comparision_expression)*
+comparison_expression ::= additive_expression ([<>] '='? additive_expression)*
+additive_expression ::= multiplicative_expression ([+-] multiplicative_expression)*
+multiplicative_expression ::= unary_expression ([*/] unary_expression)*
+
+unary_expression ::= [-!] unary_expression | secondary_expression
+
+secondary_expression ::= primary_expression
+    (
+        '.' access_function_expression |
+        '[' (expression (',' expression)* ','?)? ']'
+    )*
+
+primary_expression ::=
+     'null' |
+     'true' |
+     'false' |
+     integer |
+     decimal |
+     string |
+     ':' identifier |
+     '[' (expression (',' expression)* ','?)? ']' |
+     '{' (identifier (':' expression)? (',' identifier (':' expression)?)* ','?) '}'
+     '(' expression ')' |
+     access_function_expression |
+     macro_expression
+
+access_function_expression ::=
+    identifier
+    ('(' (expression (',' expression)* ','?)? ')')?
+    (
+        ('|' (identifier (',' identifier)* ','?)? '|')?
+        '{' statement* '}'
+    )?
+
+macro_expression ::= '#' identifier
+    (
+        '(' (expression (',' expression)* ','?)? ')' ('{' dsl_source '}')? |
+        '{' dsl_source '}'
+    )
+```
+
+### Decision Grammar
+
+```ebnf
+expression ::= logical_or_expression
+
+logical_or_expression ::= logical_and_expression ('|' '|' "commit logical_or" logical_and_expression)*
+logical_and_expression ::= equality_expression ('&' '&' "commit logical_and" equality_expression)*
+equality_expression ::= comparison_expression ([!=] '=' '='? "commit equality" comparision_expression)*
+comparison_expression ::= additive_expression ([<>] '='? "commit comparison" additive_expression)*
+additive_expression ::= multiplicative_expression ([+-] "commit additive" multiplicative_expression)*
+multiplicative_expression ::= unary_expression ([*/] "commit multiplicative" unary_expression)*
+
+unary_expression ::= [-!] "commit unary" unary_expression | secondary_expression
+
+secondary_expression ::= primary_expression
+    (
+        '.' "commit access_function" access_function_expression |
+        '[' "commit index" (expression (',' expression)* ','?)? ']'
+    )*
+
+primary_expression ::=
+     'null' |
+     'true' |
+     'false' |
+     integer |
+     decimal |
+     string |
+     ':' identifier "commit atom" |
+     '[' "commit list" (expression (',' expression)* ','?)? ']' |
+     '{' "commit object" (identifier (':' "commit value" expression)? (',' identifier (':' "commit value" expression)?)* ','?) '}' |
+     '(' "commit group" expression ')' |
+     identifier "commit access_function" access_function_expression |
+     '#' identifier "commit macro" macro_expression
+
+access_function_expression ::=
+    identifier
+    ('(' "commit arguments" (expression (',' expression)* ','?)? ')')?
+    (
+        ('|' "commit parameters" (identifier (',' identifier)* ','?)? '|')?
+        '{' "commit lambda" statement* '}'
+    )?
+
+macro_expression ::= '#' identifier
+    (
+        '(' "commit arguments" (expression (',' expression)* ','?)? ')' ('{' "commit dsl" dsl_source '}')? |
+        '{' "commit dsl" dsl_source '}'
+    )
+```
