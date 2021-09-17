@@ -88,6 +88,53 @@ lex_operator ::= [^A-Za-z0-9_\"]
 ## Parser
 
 ```ebnf
+statement ::=
+    block_statement |
+    declaration_statement |
+    if_statement |
+    match_statement |
+    for_statement |
+    while_statement |
+    try_statement |
+    with_statement |
+    break_statement |
+    continue_statement |
+    return_statement |
+    throw_statement |
+    assert_statement |
+    require_statement |
+    ensure_statement |
+    label_statement |
+    expression ('=' expression)? ';'
+
+block_statement ::= '{' statement* '}'
+
+declaration_statement ::= ('val' | 'var') identifier ('=' expression)? ';'
+
+if_statement ::= 'if' '(' expression ')' statement ('else' statement)?
+match_statement ::= 'match' ('(' expression ')')? '{'
+    (expression ':' statement)*
+    ('else' expression? ':' statement)?
+    '}'
+
+for_statement ::= 'for' '(' 'val' identifier 'in' expression ')' statement
+while_statement ::= 'while' '(' expression ')' statement
+
+try_statement ::= 'try' statement
+    ('catch' '(' identifier ')' statement)*
+    ('finally' statement)?
+with_statement ::= 'with' '(' ('val' identifier '=')? expression ')' statement
+
+label_statement ::= identifier ':' statement
+break_statement ::= 'break' identifier? ';'
+continue_statement ::= 'continue' identifier? ';'
+return_statement ::= 'return' expression? ';'
+throw_statement ::= 'throw' expression ';'
+
+assert_statement ::= 'assert' expression (':' expression)? ';'
+require_statement ::= 'require' expression (':' expression)? ';'
+ensure_statement ::= 'ensure' expression (':' expression)? ';'
+
 expression ::= logical_or_expression
 
 logical_or_expression ::= logical_and_expression ('|' '|' logical_and_expression)*
@@ -137,6 +184,53 @@ macro_expression ::= '#' identifier
 ### Decision Grammar
 
 ```ebnf
+statement ::=
+    '{' "commit block" block_statement |
+    ('var' | 'val') "commit declaration" declaration_statement |
+    'if' "commit if" if_statement |
+    'match' "commit match" match_statement |
+    'for' "commit for" for_statement |
+    'while' "commit while" while_statement |
+    'try' "commit try" try_statement |
+    'with' "commit with" with_statement |
+    'break' "commit break" break_statement |
+    'continue' "commit continue" continue_statement |
+    'return' "commit return" return_statement |
+    'throw' "commit throw" throw_statement |
+    'assert' "commit assert" assert_statement |
+    'require' "commit require" require_statement |
+    'ensure' "commit ensure" ensure_statement |
+    identifier ':' "commit label" label_statement |
+    expression ('=' "commit assignment" expression)? ';'
+
+block_statement ::= '{' statement* '}'
+
+declaration_statement ::= ('val' | 'var') identifier ('=' "commit value" expression)? ';'
+
+if_statement ::= 'if' '(' expression ')' statement ('else' "commit else" statement)?
+match_statement ::= 'match' ('(' "commit argument" expression ')')? '{'
+    (expression ':' statement)*
+    ('else' "commit else" expression? ':' statement)?
+    '}'
+
+for_statement ::= 'for' '(' 'val' identifier 'in' expression ')' statement
+while_statement ::= 'while' '(' expression ')' statement
+
+try_statement ::= 'try' statement
+    ('catch' "commit catch" '(' identifier ')' statement)* 
+    ('finally' "commit finally" statement)?
+with_statement ::= 'with' '(' ('val' "commit declaration" identifier '=')? expression ')' statement
+
+label_statement ::= identifier ':' statement
+break_statement ::= 'break' identifier? ';'
+continue_statement ::= 'continue' identifier? ';'
+return_statement ::= 'return' expression? ';'
+throw_statement ::= 'throw' expression ';'
+
+assert_statement ::= 'assert' expression (':' "commit message" expression)? ';'
+require_statement ::= 'require' expression (':' "commit message" expression)? ';'
+ensure_statement ::= 'ensure' expression (':' "commit message" expression)? ';'
+
 expression ::= logical_or_expression
 
 logical_or_expression ::= logical_and_expression ('|' '|' "commit logical_or" logical_and_expression)*
